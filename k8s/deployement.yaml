@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: signalify-dashboard
+  labels:
+    app: signalify-dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: signalify-dashboard
+  template:
+    metadata:
+      labels:
+        app: signalify-dashboard
+    spec:
+      containers:
+        - name: signalify-dashboard
+          image: bhajian/signalify-dashboard:latest
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+          env:
+            - name: VITE_APP_API_URL
+              value: "https://api.signalify.io"
+            - name: VITE_APP_VERSION
+              value: "3.3.0"
+            - name: VITE_APP_MAPBOX_ACCESS_TOKEN
+              value: "your-mapbox-access-token"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: signalify-dashboard
+spec:
+  selector:
+    app: signalify-dashboard
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+
+---
+
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: signalify-dashboard
+spec:
+  to:
+    kind: Service
+    name: signalify-dashboard
+  host: dashboard.apps.your-openshift-domain.com # Replace with your OpenShift domain
+  path: /dashboard
+  port:
+    targetPort: 80
+  tls:
+    termination: edge

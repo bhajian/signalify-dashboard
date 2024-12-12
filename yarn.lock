@@ -2706,6 +2706,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stripe/stripe-js@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "@stripe/stripe-js@npm:5.3.0"
+  checksum: 10c0/75bae9f24e658108f9020459a4ef0c18f96b108a8f569e5d952becbf2c84a0ae9f9a9f66034d5a2e4054f23e83b4ea35309734be6335d2a232aaf0fc50cd7947
+  languageName: node
+  linkType: hard
+
 "@svgr/babel-plugin-add-jsx-attribute@npm:8.0.0":
   version: 8.0.0
   resolution: "@svgr/babel-plugin-add-jsx-attribute@npm:8.0.0"
@@ -6146,6 +6153,7 @@ __metadata:
     "@mui/lab": "npm:^5.0.0-alpha.173"
     "@mui/material": "npm:^5.16.6"
     "@mui/system": "npm:^5.16.6"
+    "@stripe/stripe-js": "npm:^5.3.0"
     "@svgr/webpack": "npm:^8.1.0"
     "@vitejs/plugin-react": "npm:^4.3.1"
     amazon-cognito-identity-js: "npm:6.3.12"

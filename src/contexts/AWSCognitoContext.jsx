@@ -88,7 +88,7 @@ export const AWSCognitoProvider = ({ children }) => {
               isLoggedIn: true,
               user: {
                 email: authData.getUsername(),
-                name: 'John AWS'
+                name: 'Behnam AWS'
               }
             }
           });

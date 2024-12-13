@@ -1,6 +1,6 @@
 import { createContext, useEffect, useReducer } from 'react';
 import { jwtDecode } from 'jwt-decode';
-
+import axios from 'axios';
 // third-party
 import { CognitoUser, CognitoUserPool, CognitoUserAttribute, AuthenticationDetails } from 'amazon-cognito-identity-js';
 
@@ -59,18 +59,35 @@ export const AWSCognitoProvider = ({ children }) => {
     }
   };
 
+  const fetchProfile = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/api/profile', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('serviceToken')}`
+        }
+      });
+      return response.data.profile
+      
+    } catch (error) {
+      alert(error)
+      console.error('Error fetching channels:', error);
+    }
+  };
+
   useEffect(() => {
     const init = async () => {
       try {
         const serviceToken = window.localStorage.getItem('serviceToken');
         if (serviceToken && validateToken()) {
           setSession(serviceToken);
+          let profile = fetchProfile()
+          
           dispatch({
             type: LOGIN,
             payload: {
               isLoggedIn: true,
               user: {
-                name: 'Betty'
+                name: profile.name
               }
             }
           });
@@ -101,6 +118,8 @@ export const AWSCognitoProvider = ({ children }) => {
       Password: password
     });
 
+    let profile = fetchProfile()
+
     await new Promise((resolve, reject) => {
       usr.authenticateUser(authData, {
         onSuccess: (session) => {
@@ -111,7 +130,7 @@ export const AWSCognitoProvider = ({ children }) => {
               isLoggedIn: true,
               user: {
                 email: authData.getUsername(),
-                name: 'Behnam AWS'
+                name: authData.getUsername(),
               }
             }
           });

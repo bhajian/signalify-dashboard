@@ -14,7 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
@@ -91,6 +92,77 @@ function useInputRef() {
 // ==============================|| TAB - PERSONAL ||============================== //
 
 export default function TabPersonal() {
+  const [profile, setProfile] = useState({
+    firstname: 'AAA',
+    lastName: 'Ben',
+    email: 'stebin.ben@gmail.com',
+    dob: new Date('03-10-1993'),
+    countryCode: '+91',
+    contact: 9652364852,
+    designation: 'Full Stack Developer',
+    address: '3801 Chalk Butte Rd, Cut Bank, MT 59427, United States',
+    address1: '301 Chalk Butte Rd, Cut Bank, NY 96572, New York',
+    country: 'US',
+    state: 'California',
+    skill: [
+      'Adobe XD',
+      'Angular',
+      'Corel Draw',
+      'Figma',
+      'HTML',
+      'Illustrator',
+      'Javascript',
+      'Logo Design',
+      'Material UI',
+      'NodeJS',
+      'npm',
+      'Photoshop',
+      'React',
+      'Reduxjs & tooltit',
+      'SASS'
+    ],
+    note: `Notes.`,
+    submit: null
+  });
+
+  const handleSave = async () => {
+    try {
+      alert(profile.name)
+      const response = await axios.post(
+        'http://localhost:3001/api/profile',
+        profile,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('serviceToken')}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+    } catch (error) {
+      alert(error)
+      console.error('Error during subscription:', error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/api/profile', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('serviceToken')}`
+          }
+        });
+        setProfile(response.data.profile);
+        
+      } catch (error) {
+        alert(error)
+        console.error('Error fetching channels:', error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
   const handleChangeDay = (event, date, setFieldValue) => {
     setFieldValue('dob', new Date(date.setDate(parseInt(event.target.value, 10))));
   };
@@ -107,38 +179,7 @@ export default function TabPersonal() {
   return (
     <MainCard content={false} title="Personal Information" sx={{ '& .MuiInputLabel-root': { fontSize: '0.875rem' } }}>
       <Formik
-        initialValues={{
-          firstname: 'Stebin',
-          lastname: 'Ben',
-          email: 'stebin.ben@gmail.com',
-          dob: new Date('03-10-1993'),
-          countryCode: '+91',
-          contact: 9652364852,
-          designation: 'Full Stack Developer',
-          address: '3801 Chalk Butte Rd, Cut Bank, MT 59427, United States',
-          address1: '301 Chalk Butte Rd, Cut Bank, NY 96572, New York',
-          country: 'US',
-          state: 'California',
-          skill: [
-            'Adobe XD',
-            'Angular',
-            'Corel Draw',
-            'Figma',
-            'HTML',
-            'Illustrator',
-            'Javascript',
-            'Logo Design',
-            'Material UI',
-            'NodeJS',
-            'npm',
-            'Photoshop',
-            'React',
-            'Reduxjs & tooltit',
-            'SASS'
-          ],
-          note: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.`,
-          submit: null
-        }}
+        initialValues={profile}
         validationSchema={Yup.object().shape({
           firstname: Yup.string().max(255).required('First Name is required.'),
           lastname: Yup.string().max(255).required('Last Name is required.'),
@@ -183,7 +224,7 @@ export default function TabPersonal() {
                     <TextField
                       fullWidth
                       id="personal-first-name"
-                      value={values.firstname}
+                      value={profile.name}
                       name="firstname"
                       onBlur={handleBlur}
                       onChange={handleChange}
@@ -204,16 +245,16 @@ export default function TabPersonal() {
                     <TextField
                       fullWidth
                       id="personal-last-name"
-                      value={values.lastname}
+                      value={profile.lastName}
                       name="lastname"
                       onBlur={handleBlur}
                       onChange={handleChange}
                       placeholder="Last Name"
                     />
                   </Stack>
-                  {touched.lastname && errors.lastname && (
+                  {touched.lastName && errors.lastName && (
                     <FormHelperText error id="personal-last-name-helper">
-                      {errors.lastname}
+                      {errors.lastName}
                     </FormHelperText>
                   )}
                 </Grid>
@@ -223,7 +264,7 @@ export default function TabPersonal() {
                     <TextField
                       type="email"
                       fullWidth
-                      value={values.email}
+                      value={profile.email}
                       name="email"
                       onBlur={handleBlur}
                       onChange={handleChange}
@@ -324,7 +365,7 @@ export default function TabPersonal() {
                       <TextField
                         fullWidth
                         id="personal-contact"
-                        value={values.contact}
+                        value={profile.phone}
                         name="contact"
                         onBlur={handleBlur}
                         onChange={handleChange}
@@ -372,6 +413,7 @@ export default function TabPersonal() {
                       fullWidth
                       id="personal-addrees1"
                       value={values.address}
+                      setFieldValue={setProfile}
                       name="address"
                       onBlur={handleBlur}
                       onChange={handleChange}
@@ -384,22 +426,7 @@ export default function TabPersonal() {
                     </FormHelperText>
                   )}
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Stack spacing={1}>
-                    <InputLabel htmlFor="personal-addrees2">Address 02</InputLabel>
-                    <TextField
-                      multiline
-                      rows={3}
-                      fullWidth
-                      id="personal-addrees2"
-                      value={values.address1}
-                      name="address1"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      placeholder="Address 02"
-                    />
-                  </Stack>
-                </Grid>
+                
                 <Grid item xs={12} sm={6}>
                   <Stack spacing={1}>
                     <InputLabel htmlFor="personal-country">Country</InputLabel>
@@ -540,7 +567,11 @@ export default function TabPersonal() {
                 <Button variant="outlined" color="secondary">
                   Cancel
                 </Button>
-                <Button disabled={isSubmitting || Object.keys(errors).length !== 0} type="submit" variant="contained">
+                <Button disabled={isSubmitting} 
+                  onClick={() => handleSave()}
+                  type="submit" 
+                  variant="contained"
+                >
                   Save
                 </Button>
               </Stack>

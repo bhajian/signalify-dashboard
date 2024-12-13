@@ -28,6 +28,7 @@ import LinkedinFilled from '@ant-design/icons/LinkedinFilled';
 import MoreOutlined from '@ant-design/icons/MoreOutlined';
 import TwitterSquareFilled from '@ant-design/icons/TwitterSquareFilled';
 import CameraOutlined from '@ant-design/icons/CameraOutlined';
+import axios from 'axios';
 
 import defaultImages from 'assets/images/users/default.png';
 
@@ -37,6 +38,25 @@ export default function ProfileTabs({ focusInput }) {
   const theme = useTheme();
   const [selectedImage, setSelectedImage] = useState(undefined);
   const [avatar, setAvatar] = useState(defaultImages);
+  const [profile, setProfile] = useState({name: "default"});
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/api/profile', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('serviceToken')}`
+          }
+        });
+        setProfile(response.data.profile);
+      } catch (error) {
+        alert(error)
+        console.error('Error fetching channels:', error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   useEffect(() => {
     if (selectedImage) {
@@ -146,7 +166,7 @@ export default function ProfileTabs({ focusInput }) {
               onChange={(e) => setSelectedImage(e.target.files?.[0])}
             />
             <Stack spacing={0.5} alignItems="center">
-              <Typography variant="h5">Stebin Ben</Typography>
+              <Typography variant="h5">{profile.name}</Typography>
               {/* <Typography color="secondary">Full Stack Developer</Typography> */}
             </Stack>
             <Stack direction="row" spacing={3} sx={{ '& svg': { fontSize: '1.15rem', cursor: 'pointer' } }}>

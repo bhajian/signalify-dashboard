@@ -24,7 +24,6 @@ export default function LandingPage() {
   useEffect(() => {
     const fetchChannels = async () => {
       try {
-        console.log(localStorage.getItem('serviceToken'))
         const response = await axios.get('http://localhost:3001/api/channel/all', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('serviceToken')}` // Replace with your JWT token handling

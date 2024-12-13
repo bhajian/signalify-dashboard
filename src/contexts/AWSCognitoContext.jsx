@@ -1,4 +1,5 @@
 import { createContext, useEffect, useReducer } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
 // third-party
 import { CognitoUser, CognitoUserPool, CognitoUserAttribute, AuthenticationDetails } from 'amazon-cognito-identity-js';
@@ -35,11 +36,34 @@ const AWSCognitoContext = createContext(null);
 export const AWSCognitoProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
+  const validateToken = () => {
+    try {
+      const serviceToken = localStorage.getItem('serviceToken');
+      if (serviceToken) {
+        const decodedToken = jwtDecode(serviceToken);
+        const currentTime = Math.floor(Date.now() / 1000);
+        if (decodedToken.exp < currentTime) {
+          // Token has expired
+          setSession(null);
+          dispatch({ type: LOGOUT });
+          return false;
+        }
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Token validation failed:', error);
+      setSession(null);
+      dispatch({ type: LOGOUT });
+      return false;
+    }
+  };
+
   useEffect(() => {
     const init = async () => {
       try {
         const serviceToken = window.localStorage.getItem('serviceToken');
-        if (serviceToken) {
+        if (serviceToken && validateToken()) {
           setSession(serviceToken);
           dispatch({
             type: LOGIN,
@@ -81,7 +105,6 @@ export const AWSCognitoProvider = ({ children }) => {
       usr.authenticateUser(authData, {
         onSuccess: (session) => {
           setSession(session.getAccessToken().getJwtToken());
-
           dispatch({
             type: LOGIN,
             payload: {
@@ -122,17 +145,48 @@ export const AWSCognitoProvider = ({ children }) => {
           new CognitoUserAttribute({ Name: 'name', Value: `${firstName} ${lastName}` })
         ],
         [],
-        (err) => {
+        async (err, result) => {
           if (err) {
             reject(err);
             return;
           }
-          localStorage.setItem('email', email);
-          resolve();
+  
+          try {
+            // Extract the unique identifier (sub) from the user attributes
+            const sub = result.userSub;
+  
+            // Prepare the data to send to the backend API
+            const profileData = {
+              sub, // Unique identifier from Cognito
+              email,
+              name: firstName,
+              lastName
+            };
+  
+            // Make a POST request to the profile API
+            const response = await fetch('http://localhost:3001/api/profile', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(profileData)
+            });
+  
+            if (!response.ok) {
+              throw new Error(`Failed to create profile: ${response.statusText}`);
+            }
+  
+            localStorage.setItem('email', email);
+            resolve();
+          } catch (apiError) {
+            console.error('Profile creation failed:', apiError);
+            reject(apiError);
+          }
         }
       );
     });
   };
+  
 
   const logout = () => {
     const loggedInUser = userPool.getCurrentUser();
@@ -235,7 +289,8 @@ export const AWSCognitoProvider = ({ children }) => {
         awsResetPassword,
         updateProfile,
         codeVerification,
-        resendConfirmationCode
+        resendConfirmationCode,
+        validateToken
       }}
     >
       {children}

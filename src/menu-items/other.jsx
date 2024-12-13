@@ -30,20 +30,7 @@ const other = {
       icon: icons.StopOutlined,
       disabled: true
     },
-    {
-      id: 'documentation',
-      title: <FormattedMessage id="documentation" />,
-      type: 'item',
-      url: 'https://codedthemes.gitbook.io/mantis/',
-      icon: icons.QuestionOutlined,
-      external: true,
-      target: true,
-      chip: {
-        label: 'gitbook',
-        color: 'secondary',
-        size: 'small'
-      }
-    }
+    
   ]
 };
 

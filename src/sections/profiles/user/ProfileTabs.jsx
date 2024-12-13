@@ -90,7 +90,7 @@ export default function ProfileTabs({ focusInput }) {
             >
               <MenuItem
                 component={Link}
-                to="/apps/profiles/user/personal"
+                to="/profiles/user/personal"
                 onClick={() => {
                   handleClose();
                   setTimeout(() => {
@@ -147,7 +147,7 @@ export default function ProfileTabs({ focusInput }) {
             />
             <Stack spacing={0.5} alignItems="center">
               <Typography variant="h5">Stebin Ben</Typography>
-              <Typography color="secondary">Full Stack Developer</Typography>
+              {/* <Typography color="secondary">Full Stack Developer</Typography> */}
             </Stack>
             <Stack direction="row" spacing={3} sx={{ '& svg': { fontSize: '1.15rem', cursor: 'pointer' } }}>
               <TwitterSquareFilled style={{ color: twitterColor }} />

@@ -8,9 +8,9 @@ import Typography from '@mui/material/Typography';
 // project import
 import useAuth from 'hooks/useAuth';
 import AuthWrapper from 'sections/auth/AuthWrapper';
-import FirebaseRegister from 'sections/auth/auth-forms/AuthRegister';
+import FirebaseRegister from 'sections/auth/aws/AuthRegister';
 
-// ================================|| REGISTER ||================================ //
+// ================================|| AWS - REGISTER ||================================ //
 
 export default function Register() {
   const { isLoggedIn } = useAuth();
@@ -26,7 +26,7 @@ export default function Register() {
             <Typography variant="h3">Sign up</Typography>
             <Typography
               component={Link}
-              to={isLoggedIn ? '/auth/login' : auth ? `/${auth}/login?auth=jwt` : '/login'}
+              to={isLoggedIn ? '/auth/login' : auth ? `/${auth}/login?auth=aws` : '/login'}
               variant="body1"
               sx={{ textDecoration: 'none' }}
               color="primary"

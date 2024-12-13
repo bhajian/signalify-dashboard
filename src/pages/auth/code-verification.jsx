@@ -5,9 +5,9 @@ import Typography from '@mui/material/Typography';
 
 // project import
 import AuthWrapper from 'sections/auth/AuthWrapper';
-import AuthCodeVerification from 'sections/auth/auth-forms/AuthCodeVerification';
+import AuthCodeVerification from 'sections/auth/aws/AuthCodeVerification';
 
-// ================================|| CODE VERIFICATION ||================================ //
+// ================================|| AWS - CODE VERIFICATION ||================================ //
 
 export default function CodeVerification() {
   let email = window.localStorage.getItem('email');

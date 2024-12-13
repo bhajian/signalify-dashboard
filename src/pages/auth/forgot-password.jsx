@@ -8,9 +8,9 @@ import Typography from '@mui/material/Typography';
 // project import
 import useAuth from 'hooks/useAuth';
 import AuthWrapper from 'sections/auth/AuthWrapper';
-import AuthForgotPassword from 'sections/auth/auth-forms/AuthForgotPassword';
+import AuthForgotPassword from 'sections/auth/aws/AuthForgotPassword';
 
-// ================================|| FORGOT PASSWORD ||================================ //
+// ================================|| AWS - FORGOT PASSWORD ||================================ //
 
 export default function ForgotPassword() {
   const { isLoggedIn } = useAuth();
@@ -26,7 +26,7 @@ export default function ForgotPassword() {
             <Typography variant="h3">Forgot Password</Typography>
             <Typography
               component={Link}
-              to={isLoggedIn ? '/auth/login' : auth ? `/${auth}/login?auth=jwt` : '/login'}
+              to={isLoggedIn ? '/auth/login' : auth ? `/${auth}/login?auth=aws` : '/login'}
               variant="body1"
               sx={{ textDecoration: 'none' }}
               color="primary"

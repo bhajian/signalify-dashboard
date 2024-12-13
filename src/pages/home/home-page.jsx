@@ -15,12 +15,10 @@ import MainCard from 'components/MainCard';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-export default function SamplePage() {
+export default function LandingPage() {
   const [channels, setChannels] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const [products, setProducts] = useState([]);
-  const [message, setMessage] = useState("");
 
 
   useEffect(() => {
@@ -68,7 +66,7 @@ export default function SamplePage() {
   };
 
   return (
-    <MainCard title="Sample Card">
+    <MainCard title="Landing Card">
       <Grid container spacing={3}>
       {channels.map((channel) => (
         <Grid item xs={12} sm={6} md={4} key={channel._id}>

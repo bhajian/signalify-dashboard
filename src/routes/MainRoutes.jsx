@@ -12,10 +12,16 @@ const MaintenanceError500 = Loadable(lazy(() => import('pages/maintenance/500'))
 const MaintenanceUnderConstruction = Loadable(lazy(() => import('pages/maintenance/under-construction')));
 const MaintenanceComingSoon = Loadable(lazy(() => import('pages/maintenance/coming-soon')));
 
-const AppContactUS = Loadable(lazy(() => import('pages/contact-us')));
-// render - sample page
-const SamplePage = Loadable(lazy(() => import('pages/extra-pages/sample-page')));
+const UserProfile = Loadable(lazy(() => import('pages/profiles/user')));
+const UserTabPersonal = Loadable(lazy(() => import('sections/profiles/user/TabPersonal')));
+const UserTabPayment = Loadable(lazy(() => import('sections/profiles/user/TabPayment')));
+const UserTabPassword = Loadable(lazy(() => import('sections/profiles/user/TabPassword')));
+const UserTabSettings = Loadable(lazy(() => import('sections/profiles/user/TabSettings')));
 
+const AppContactUS = Loadable(lazy(() => import('pages/contact-us')));
+// render - landing page
+const HomePage = Loadable(lazy(() => import('pages/home/home-page')));
+const ProfilePage = Loadable(lazy(() => import('pages/profiles/user')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -26,8 +32,62 @@ const MainRoutes = {
       element: <DashboardLayout />,
       children: [
         {
-          path: 'sample-page',
-          element: <SamplePage />
+          path: 'home',
+          element: <HomePage />
+        },
+        {
+          path: 'profiles',
+          children: [
+            {
+              path: 'user',
+              element: <UserProfile />,
+              children: [
+                {
+                  path: 'personal',
+                  element: <UserTabPersonal />
+                },
+                {
+                  path: 'payment',
+                  element: <UserTabPayment />
+                },
+                {
+                  path: 'password',
+                  element: <UserTabPassword />
+                },
+                {
+                  path: 'settings',
+                  element: <UserTabSettings />
+                }
+              ]
+            }
+          ]
+        },
+      ]
+    },
+    {
+      path: 'profiles',
+      children: [
+        {
+          path: 'user',
+          element: <UserProfile />,
+          children: [
+            {
+              path: 'personal',
+              element: <UserTabPersonal />
+            },
+            {
+              path: 'payment',
+              element: <UserTabPayment />
+            },
+            {
+              path: 'password',
+              element: <UserTabPassword />
+            },
+            {
+              path: 'settings',
+              element: <UserTabSettings />
+            }
+          ]
         }
       ]
     },

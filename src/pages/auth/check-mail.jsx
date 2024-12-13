@@ -11,7 +11,7 @@ import useAuth from 'hooks/useAuth';
 import AnimateButton from 'components/@extended/AnimateButton';
 import AuthWrapper from 'sections/auth/AuthWrapper';
 
-// ================================|| CHECK MAIL ||================================ //
+// ================================|| AWS - CHECK MAIL ||================================ //
 
 export default function CheckMail() {
   const { isLoggedIn } = useAuth();
@@ -34,7 +34,7 @@ export default function CheckMail() {
           <AnimateButton>
             <Button
               component={Link}
-              to={isLoggedIn ? '/auth/login' : auth ? `/${auth}/login?auth=jwt` : '/login'}
+              to={isLoggedIn ? '/auth/login' : auth ? `/${auth}/login?auth=aws` : '/login'}
               disableElevation
               fullWidth
               size="large"

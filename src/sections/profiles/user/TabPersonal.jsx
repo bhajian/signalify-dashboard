@@ -25,7 +25,7 @@ import { Formik } from 'formik';
 
 // project import
 import { openSnackbar } from 'api/snackbar';
-import countries from 'data/countries';
+import countries from '../../../assets/data/countries';
 import MainCard from 'components/MainCard';
 
 // assets

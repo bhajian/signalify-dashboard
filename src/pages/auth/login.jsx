@@ -8,15 +8,15 @@ import Typography from '@mui/material/Typography';
 // project import
 import useAuth from 'hooks/useAuth';
 import AuthWrapper from 'sections/auth/AuthWrapper';
-import AuthLogin from 'sections/auth/auth-forms/AuthLogin';
+import AuthLogin from 'sections/auth/aws/AuthLogin';
 
-// ================================|| LOGIN ||================================ //
+// ================================|| AWS - LOGIN ||================================ //
 
 export default function Login() {
   const { isLoggedIn } = useAuth();
 
   const [searchParams] = useSearchParams();
-  const auth = searchParams.get('auth');
+  const auth = searchParams.get('auth'); // get auth and set route based on that
 
   return (
     <AuthWrapper>
@@ -26,7 +26,7 @@ export default function Login() {
             <Typography variant="h3">Login</Typography>
             <Typography
               component={Link}
-              to={isLoggedIn ? '/auth/register' : auth ? `/${auth}/register?auth=jwt` : '/register'}
+              to={isLoggedIn ? '/auth/register' : auth ? `/${auth}/register?auth=aws` : '/register'}
               variant="body1"
               sx={{ textDecoration: 'none' }}
               color="primary"
@@ -36,7 +36,7 @@ export default function Login() {
           </Stack>
         </Grid>
         <Grid item xs={12}>
-          <AuthLogin isDemo={isLoggedIn} />
+          <AuthLogin />
         </Grid>
       </Grid>
     </AuthWrapper>

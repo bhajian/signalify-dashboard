@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 // project import
 import useAuth from 'hooks/useAuth';
 import AuthWrapper from 'sections/auth/AuthWrapper';
-import FirebaseRegister from 'sections/auth/aws/AuthRegister';
+import RegisterSection from 'sections/auth/aws/AuthRegister';
 
 // ================================|| AWS - REGISTER ||================================ //
 
@@ -36,7 +36,7 @@ export default function Register() {
           </Stack>
         </Grid>
         <Grid item xs={12}>
-          <FirebaseRegister />
+          <RegisterSection />
         </Grid>
       </Grid>
     </AuthWrapper>

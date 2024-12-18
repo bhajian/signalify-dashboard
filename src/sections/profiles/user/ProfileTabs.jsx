@@ -166,7 +166,7 @@ export default function ProfileTabs({ focusInput }) {
               onChange={(e) => setSelectedImage(e.target.files?.[0])}
             />
             <Stack spacing={0.5} alignItems="center">
-              <Typography variant="h5">{profile.name}</Typography>
+              <Typography variant="h5">{profile.name + " " + profile.lastName}</Typography>
               {/* <Typography color="secondary">Full Stack Developer</Typography> */}
             </Stack>
             <Stack direction="row" spacing={3} sx={{ '& svg': { fontSize: '1.15rem', cursor: 'pointer' } }}>
@@ -179,14 +179,10 @@ export default function ProfileTabs({ focusInput }) {
         <Grid item sm={3} sx={{ display: { sm: 'block', md: 'none' } }} />
         <Grid item xs={12} sm={6} md={12}>
           <Stack direction="row" justifyContent="space-around" alignItems="center">
-            <Stack spacing={0.5} alignItems="center">
-              <Typography variant="h5">86</Typography>
-              <Typography color="secondary">Post</Typography>
-            </Stack>
             <Divider orientation="vertical" flexItem />
             <Stack spacing={0.5} alignItems="center">
               <Typography variant="h5">40</Typography>
-              <Typography color="secondary">Project</Typography>
+              <Typography color="secondary">Channels</Typography>
             </Stack>
             <Divider orientation="vertical" flexItem />
             <Stack spacing={0.5} alignItems="center">

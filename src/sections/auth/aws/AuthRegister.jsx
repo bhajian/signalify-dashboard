@@ -65,6 +65,7 @@ const AuthRegister = () => {
           firstname: '',
           lastname: '',
           email: '',
+          phone: '',
           company: '',
           password: '',
           submit: null
@@ -73,6 +74,7 @@ const AuthRegister = () => {
           firstname: Yup.string().max(255).required('First Name is required'),
           lastname: Yup.string().max(255).required('Last Name is required'),
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+          phone: Yup.string().max(255),
           password: Yup.string()
             .required('Password is required')
             .test('no-leading-trailing-whitespace', 'Password cannot start or end with spaces', (value) => value === value.trim())
@@ -81,7 +83,8 @@ const AuthRegister = () => {
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             const trimmedEmail = values.email.trim();
-            await register(trimmedEmail, values.password, values.firstname, values.lastname);
+            
+            await register(trimmedEmail, values.phone, values.password, values.firstname, values.lastname);
             setStatus({ success: true });
             setSubmitting(false);
             openSnackbar({
@@ -151,7 +154,7 @@ const AuthRegister = () => {
                   </FormHelperText>
                 )}
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={6}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="company-signup">Company</InputLabel>
                   <OutlinedInput
@@ -169,6 +172,28 @@ const AuthRegister = () => {
                 {touched.company && errors.company && (
                   <FormHelperText error id="helper-text-company-signup">
                     {errors.company}
+                  </FormHelperText>
+                )}
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Stack spacing={1}>
+                  <InputLabel htmlFor="phone-signup">Phone</InputLabel>
+                  <OutlinedInput
+                    fullWidth
+                    error={Boolean(touched.phone && errors.phone)}
+                    id="phone-signup"
+                    type="phone"
+                    value={values.phone}
+                    name="phone"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    placeholder="+1 123-123-4567"
+                    inputProps={{}}
+                  />
+                </Stack>
+                {touched.phone && errors.phone && (
+                  <FormHelperText error id="helper-text-phone-signup">
+                    {errors.phone}
                   </FormHelperText>
                 )}
               </Grid>

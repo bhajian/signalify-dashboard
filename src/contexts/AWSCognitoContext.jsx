@@ -69,8 +69,8 @@ export const AWSCognitoProvider = ({ children }) => {
       return response.data.profile
       
     } catch (error) {
-      alert(error)
-      console.error('Error fetching channels:', error);
+      // alert(error)
+      console.error('Error fetching profiles:', error);
     }
   };
 
@@ -80,14 +80,15 @@ export const AWSCognitoProvider = ({ children }) => {
         const serviceToken = window.localStorage.getItem('serviceToken');
         if (serviceToken && validateToken()) {
           setSession(serviceToken);
-          let profile = fetchProfile()
-          
+          let profile = await fetchProfile()
+          let name = profile.firstname + profile.lastname
+          // let name = "TEST"
           dispatch({
             type: LOGIN,
             payload: {
               isLoggedIn: true,
               user: {
-                name: profile.name
+                name: name
               }
             }
           });
@@ -118,19 +119,19 @@ export const AWSCognitoProvider = ({ children }) => {
       Password: password
     });
 
-    let profile = fetchProfile()
-
     await new Promise((resolve, reject) => {
       usr.authenticateUser(authData, {
-        onSuccess: (session) => {
+        onSuccess: async(session) => {
           setSession(session.getAccessToken().getJwtToken());
+          let profile = await fetchProfile()
+          let name = profile.firstname + profile.lastname
           dispatch({
             type: LOGIN,
             payload: {
               isLoggedIn: true,
               user: {
                 email: authData.getUsername(),
-                name: authData.getUsername(),
+                name: name,
               }
             }
           });
@@ -154,14 +155,15 @@ export const AWSCognitoProvider = ({ children }) => {
     });
   };
 
-  const register = async (email, password, firstName, lastName) => {
+  const register = async (email, phone, password, firstname, lastname) => {
     await new Promise((resolve, reject) => {
       userPool.signUp(
         email,
         password,
         [
+          // new CognitoUserAttribute({ phone: 'phone', Value: phone }),
           new CognitoUserAttribute({ Name: 'email', Value: email }),
-          new CognitoUserAttribute({ Name: 'name', Value: `${firstName} ${lastName}` })
+          new CognitoUserAttribute({ Name: 'name', Value: `${firstname} ${lastname}` })
         ],
         [],
         async (err, result) => {
@@ -178,8 +180,9 @@ export const AWSCognitoProvider = ({ children }) => {
             const profileData = {
               sub, // Unique identifier from Cognito
               email,
-              name: firstName,
-              lastName
+              phone,
+              firstname,
+              lastname
             };
   
             // Make a POST request to the profile API

@@ -1718,6 +1718,42 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@dnd-kit/accessibility@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "@dnd-kit/accessibility@npm:3.1.1"
+  dependencies:
+    tslib: "npm:^2.0.0"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 10c0/be0bf41716dc58f9386bc36906ec1ce72b7b42b6d1d0e631d347afe9bd8714a829bd6f58a346dd089b1519e93918ae2f94497411a61a4f5e4d9247c6cfd1fef8
+  languageName: node
+  linkType: hard
+
+"@dnd-kit/core@npm:^6.3.1":
+  version: 6.3.1
+  resolution: "@dnd-kit/core@npm:6.3.1"
+  dependencies:
+    "@dnd-kit/accessibility": "npm:^3.1.1"
+    "@dnd-kit/utilities": "npm:^3.2.2"
+    tslib: "npm:^2.0.0"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10c0/196db95d81096d9dc248983533eab91ba83591770fa5c894b1ac776f42af0d99522b3fd5bb3923411470e4733fcfa103e6ee17adc17b9b7eb54c7fbec5ff7c52
+  languageName: node
+  linkType: hard
+
+"@dnd-kit/utilities@npm:^3.2.2":
+  version: 3.2.2
+  resolution: "@dnd-kit/utilities@npm:3.2.2"
+  dependencies:
+    tslib: "npm:^2.0.0"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 10c0/9aa90526f3e3fd567b5acc1b625a63177b9e8d00e7e50b2bd0e08fa2bf4dba7e19529777e001fdb8f89a7ce69f30b190c8364d390212634e0afdfa8c395e85a0
+  languageName: node
+  linkType: hard
+
 "@emotion/babel-plugin@npm:^11.12.0":
   version: 11.12.0
   resolution: "@emotion/babel-plugin@npm:11.12.0"
@@ -3020,6 +3056,25 @@ __metadata:
     "@svgr/plugin-jsx": "npm:8.1.0"
     "@svgr/plugin-svgo": "npm:8.1.0"
   checksum: 10c0/4c1cac45bd5890de8643e5a7bfb71f3bcd8b85ae5bbacf10b8ad9f939b7a98e8d601c3ada204ffb95223abf4a24beeac5a2a0d6928a52a1ab72a29da3c015c22
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-table@npm:^8.20.6":
+  version: 8.20.6
+  resolution: "@tanstack/react-table@npm:8.20.6"
+  dependencies:
+    "@tanstack/table-core": "npm:8.20.5"
+  peerDependencies:
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: 10c0/3213dc146f647fbd571f4e347007b969320819e588439b2ee95dd3a65efcbe30d097c24426dd82617041ed1e186182a5b303382bcebed5d61a1c6045a55c58d3
+  languageName: node
+  linkType: hard
+
+"@tanstack/table-core@npm:8.20.5":
+  version: 8.20.5
+  resolution: "@tanstack/table-core@npm:8.20.5"
+  checksum: 10c0/3c27b5debd61b6bd9bfbb40bfc7c5d5af90873ae1a566b20e3bf2d2f4f2e9a78061c081aacc5259a00e256f8df506ec250eb5472f5c01ff04baf9918b554982b
   languageName: node
   linkType: hard
 
@@ -6309,6 +6364,7 @@ __metadata:
     "@babel/core": "npm:^7.24.0"
     "@babel/eslint-parser": "npm:^7.24.7"
     "@babel/plugin-proposal-private-property-in-object": "npm:^7.21.11"
+    "@dnd-kit/core": "npm:^6.3.1"
     "@emotion/cache": "npm:^11.13.1"
     "@emotion/react": "npm:^11.13.0"
     "@emotion/styled": "npm:^11.13.0"
@@ -6323,6 +6379,7 @@ __metadata:
     "@mui/x-date-pickers": "npm:^7.23.2"
     "@stripe/stripe-js": "npm:^5.3.0"
     "@svgr/webpack": "npm:^8.1.0"
+    "@tanstack/react-table": "npm:^8.20.6"
     "@vitejs/plugin-react": "npm:^4.3.1"
     amazon-cognito-identity-js: "npm:6.3.12"
     apexcharts: "npm:^4.2.0"
@@ -6351,6 +6408,7 @@ __metadata:
     process: "npm:^0.11.10"
     react: "npm:^18.3.1"
     react-apexcharts: "npm:^1.7.0"
+    react-csv: "npm:^2.2.2"
     react-device-detect: "npm:^2.2.3"
     react-dom: "npm:^18.3.1"
     react-error-overlay: "npm:6.0.11"
@@ -7030,6 +7088,13 @@ __metadata:
     apexcharts: ">=4.0.0"
     react: ">=0.13"
   checksum: 10c0/0533cd8b44df4d6a0b157c8a8adbcddb33a0575420b3fa1b5c90fa8553a39884bcc1122cce912252e452c8bffd1c4eaf2d9f9cfa4e515e81e7067fa36fcffe52
+  languageName: node
+  linkType: hard
+
+"react-csv@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "react-csv@npm:2.2.2"
+  checksum: 10c0/287e7ba2085a32a0e65d7a19b9e063e43f06f75ab6ebc18bb52b518007a1d6ec5f5ce33fc7c4e290e3ea41cfb251657b6e62aadadc8d7ffcef7e53d43bf3eb69
   languageName: node
   linkType: hard
 

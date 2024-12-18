@@ -69,4 +69,11 @@ const config = {
   themeDirection: ThemeDirection.LTR
 };
 
+export let Gender;
+
+(function (Gender) {
+  Gender['MALE'] = 'Male';
+  Gender['FEMALE'] = 'Female';
+})(Gender || (Gender = {}));
+
 export default config;

@@ -41,8 +41,24 @@ const applications = {
           id: 'user-profile',
           title: <FormattedMessage id="user-profile" />,
           type: 'item',
-          link: '/profiles',
-          url: '/profiles/user/personal',
+          link: '/profile',
+          url: '/profile/user/personal',
+          breadcrumbs: false
+        },
+      ]
+    },
+    {
+      id: 'channel',
+      title: <FormattedMessage id="channel" />,
+      type: 'collapse',
+      icon: icons.MessageOutlined,
+      children: [
+        {
+          id: 'channels',
+          title: <FormattedMessage id="channels" />,
+          type: 'item',
+          link: '/channel',
+          url: '/channel/all',
           breadcrumbs: false
         },
       ]

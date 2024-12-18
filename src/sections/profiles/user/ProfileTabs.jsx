@@ -166,7 +166,7 @@ export default function ProfileTabs({ focusInput }) {
               onChange={(e) => setSelectedImage(e.target.files?.[0])}
             />
             <Stack spacing={0.5} alignItems="center">
-              <Typography variant="h5">{profile.name + " " + profile.lastName}</Typography>
+              <Typography variant="h5">{profile.firstname + " " + profile.lastname}</Typography>
               {/* <Typography color="secondary">Full Stack Developer</Typography> */}
             </Stack>
             <Stack direction="row" spacing={3} sx={{ '& svg': { fontSize: '1.15rem', cursor: 'pointer' } }}>

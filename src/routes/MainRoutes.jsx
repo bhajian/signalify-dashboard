@@ -12,6 +12,8 @@ const MaintenanceError500 = Loadable(lazy(() => import('pages/maintenance/500'))
 const MaintenanceUnderConstruction = Loadable(lazy(() => import('pages/maintenance/under-construction')));
 const MaintenanceComingSoon = Loadable(lazy(() => import('pages/maintenance/coming-soon')));
 
+const ReactTableEditable = Loadable(lazy(() => import('pages/channel/editable')));
+
 const UserProfile = Loadable(lazy(() => import('pages/profiles/user')));
 const UserTabPersonal = Loadable(lazy(() => import('sections/profiles/user/TabPersonal')));
 const UserTabPayment = Loadable(lazy(() => import('sections/profiles/user/TabPayment')));
@@ -36,7 +38,7 @@ const MainRoutes = {
           element: <HomePage />
         },
         {
-          path: 'profiles',
+          path: 'profile',
           children: [
             {
               path: 'user',
@@ -62,33 +64,15 @@ const MainRoutes = {
             }
           ]
         },
-      ]
-    },
-    {
-      path: 'profiles',
-      children: [
         {
-          path: 'user',
-          element: <UserProfile />,
+          path: 'channel',
           children: [
             {
-              path: 'personal',
-              element: <UserTabPersonal />
-            },
-            {
-              path: 'payment',
-              element: <UserTabPayment />
-            },
-            {
-              path: 'password',
-              element: <UserTabPassword />
-            },
-            {
-              path: 'settings',
-              element: <UserTabSettings />
+              path: 'all',
+              element: <ReactTableEditable />
             }
           ]
-        }
+        },
       ]
     },
     {

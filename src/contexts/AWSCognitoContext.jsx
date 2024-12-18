@@ -1,6 +1,6 @@
 import { createContext, useEffect, useReducer } from 'react';
 import { jwtDecode } from 'jwt-decode';
-import axios from 'axios';
+import axiosServices from '../utils/axios'
 // third-party
 import { CognitoUser, CognitoUserPool, CognitoUserAttribute, AuthenticationDetails } from 'amazon-cognito-identity-js';
 
@@ -61,11 +61,7 @@ export const AWSCognitoProvider = ({ children }) => {
 
   const fetchProfile = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/profile', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('serviceToken')}`
-        }
-      });
+      const response = await axiosServices.get('api/profile')
       return response.data.profile
       
     } catch (error) {

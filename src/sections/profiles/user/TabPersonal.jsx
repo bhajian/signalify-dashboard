@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosServices from '../../../utils/axios'
 import {
   Box,
   Button,
@@ -42,9 +42,7 @@ const TabPersonal = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/profile', {
-          headers: { Authorization: `Bearer ${localStorage.getItem('serviceToken')}` }
-        });
+        const response = await axiosServices.get('api/profile');
         setProfile(response.data.profile);
       } catch (error) {
         console.error('Error fetching profile:', error);

@@ -12,7 +12,9 @@ const MaintenanceError500 = Loadable(lazy(() => import('pages/maintenance/500'))
 const MaintenanceUnderConstruction = Loadable(lazy(() => import('pages/maintenance/under-construction')));
 const MaintenanceComingSoon = Loadable(lazy(() => import('pages/maintenance/coming-soon')));
 
-const ReactTableEditable = Loadable(lazy(() => import('pages/channel/editable')));
+const ReactTableEditable = Loadable(lazy(() => import('pages/channel/table')));
+
+const ChannelCard = Loadable(lazy(() => import('pages/channel/list')));
 
 const UserProfile = Loadable(lazy(() => import('pages/profiles/user')));
 const UserTabPersonal = Loadable(lazy(() => import('sections/profiles/user/TabPersonal')));
@@ -61,6 +63,15 @@ const MainRoutes = {
                   element: <UserTabSettings />
                 }
               ]
+            }
+          ]
+        },
+        {
+          path: 'channel',
+          children: [
+            {
+              path: 'list',
+              element: <ChannelCard />
             }
           ]
         },

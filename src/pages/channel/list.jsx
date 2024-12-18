@@ -15,11 +15,11 @@ import Typography from '@mui/material/Typography';
 // project import
 import EmptyUserCard from 'components/cards/skeleton/EmptyUserCard';
 import { DebouncedInput } from 'components/third-party/react-table';
-import CustomerCard from 'sections/apps/customer/CustomerCard';
-import CustomerModal from 'sections/apps/customer/CustomerModal';
+import ChannelCard from 'sections/channel/ChannelCard';
+import CustomerModal from 'sections/channel/ChannelModal';
 
 import usePagination from 'hooks/usePagination';
-import { useGetCustomer } from 'api/customer';
+import { useGetChannels } from 'api/channel';
 
 // assets
 import PlusOutlined from '@ant-design/icons/PlusOutlined';
@@ -29,42 +29,47 @@ import PlusOutlined from '@ant-design/icons/PlusOutlined';
 const allColumns = [
   {
     id: 1,
-    header: 'Default'
+    header: 'ID'
   },
   {
     id: 2,
-    header: 'Customer Name'
+    header: 'Channel Name'
   },
   {
     id: 3,
-    header: 'Email'
+    header: 'Asset Type'
   },
   {
     id: 4,
-    header: 'Contact'
+    header: 'Trade Type'
   },
   {
     id: 5,
-    header: 'Age'
+    header: 'Platform'
   },
   {
     id: 6,
-    header: 'Country'
+    header: 'Owner'
   },
   {
     id: 7,
+    header: 'Price'
+  },
+  {
+    id: 8,
     header: 'Status'
   }
 ];
 
 function dataSort(data, sortBy) {
   return data.sort(function (a, b) {
-    if (sortBy === 'Customer Name') return a.name.localeCompare(b.name);
-    if (sortBy === 'Email') return a.email.localeCompare(b.email);
-    if (sortBy === 'Contact') return a.contact.localeCompare(b.contact);
-    if (sortBy === 'Age') return b.age < a.age ? 1 : -1;
-    if (sortBy === 'Country') return a.country.localeCompare(b.country);
+    if (sortBy === 'Channel Name') return a.name.localeCompare(b.name);
+    if (sortBy === 'Asset Type') return a.assetType.localeCompare(b.assetType);
+    if (sortBy === 'Trade Type') return a.tradeType.localeCompare(b.tradeType);
+    if (sortBy === 'Platform') return b.platformType.localeCompare(b.platformType);
+    if (sortBy === 'Owner') return a.ownerSub.localeCompare(b.ownerSub);
     if (sortBy === 'Status') return a.status.localeCompare(b.status);
+    if (sortBy === 'Price') return a.price.localeCompare(b.price);
     return a;
   });
 }
@@ -72,14 +77,14 @@ function dataSort(data, sortBy) {
 export default function CustomerCardPage() {
   const matchDownSM = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
-  const { customers: lists } = useGetCustomer();
+  const { channels: lists } = useGetChannels();
 
   const [sortBy, setSortBy] = useState('Default');
   const [globalFilter, setGlobalFilter] = useState('');
   const [userCard, setUserCard] = useState([]);
   const [page, setPage] = useState(1);
   const [customerLoading, setCustomerLoading] = useState(true);
-  const [customerModal, setCustomerModal] = useState(false);
+  const [channelModal, setChannelModal] = useState(false);
 
   const handleChange = (event) => {
     setSortBy(event.target.value);
@@ -138,7 +143,6 @@ export default function CustomerCardPage() {
                     if (!selected) {
                       return <Typography variant="subtitle1">Sort By</Typography>;
                     }
-
                     return <Typography variant="subtitle2">Sort by ({sortBy})</Typography>;
                   }}
                 >
@@ -151,8 +155,8 @@ export default function CustomerCardPage() {
                   })}
                 </Select>
               </FormControl>
-              <Button variant="contained" startIcon={<PlusOutlined />} onClick={() => setCustomerModal(true)}>
-                Add Customer
+              <Button variant="contained" startIcon={<PlusOutlined />} onClick={() => setChannelModal(true)}>
+                Add Channel
               </Button>
             </Stack>
           </Stack>
@@ -160,15 +164,15 @@ export default function CustomerCardPage() {
       </Box>
       <Grid container spacing={3}>
         {!customerLoading && userCard.length > 0 ? (
-          _DATA.currentData().map((user, index) => (
+          _DATA.currentData().map((channel, index) => (
             <Slide key={index} direction="up" in={true} timeout={50}>
               <Grid item xs={12} sm={6} lg={4}>
-                <CustomerCard customer={user} />
+                <ChannelCard customer={channel} />
               </Grid>
             </Slide>
           ))
         ) : (
-          <EmptyUserCard title={customerLoading ? 'Loading...' : 'You have not created any customer yet.'} />
+          <EmptyUserCard title={customerLoading ? 'Loading...' : 'You have not created any channel yet.'} />
         )}
       </Grid>
       <Stack spacing={2} sx={{ p: 2.5 }} alignItems="flex-end">
@@ -184,7 +188,7 @@ export default function CustomerCardPage() {
           onChange={handleChangePage}
         />
       </Stack>
-      <CustomerModal open={customerModal} modalToggler={setCustomerModal} />
+      <CustomerModal open={channelModal} modalToggler={setChannelModal} />
     </>
   );
 }

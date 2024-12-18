@@ -7,7 +7,7 @@ import pages from './pages';
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-  items: [applications, homePage, pages, other]
+  items: [homePage, applications, pages]
 };
 
 export default menuItems;

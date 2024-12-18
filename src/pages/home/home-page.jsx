@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 
 import { loadStripe } from '@stripe/stripe-js';
 
@@ -71,9 +72,23 @@ export default function LandingPage() {
         <Grid item xs={12} sm={6} md={4} key={channel._id}>
           <Card>
             <CardContent>
-              <Typography variant="h6">{channel.name}</Typography>
-              <Typography variant="body2">Price: ${channel.price}</Typography>
-              <Typography variant="body2">Type: {channel.assetType}</Typography>
+            
+            <Typography variant="h6">{channel.name}</Typography>
+
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>Asset Type: {channel?.assetType}</Typography>
+              </Grid>
+              
+              <Grid item xs={12}>
+                <Typography>Trade Type: {channel?.tradeType}</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>Price: {channel?.price}</Typography>
+              </Grid>
+              
               <Button
                 variant="contained"
                 color="primary"

@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import MessageOutlined from '@ant-design/icons/MessageOutlined';
 import UserOutlined from '@ant-design/icons/UserOutlined';
 import AppstoreAddOutlined from '@ant-design/icons/AppstoreAddOutlined';
-
+import CustomerServiceOutlined from '@ant-design/icons/CustomerServiceOutlined';
 // type
 
 // icons
@@ -13,6 +13,7 @@ const icons = {
   MessageOutlined,
   UserOutlined,
   AppstoreAddOutlined,
+  CustomerServiceOutlined,
 };
 
 // ==============================|| MENU ITEMS - APPLICATIONS ||============================== //
@@ -47,20 +48,48 @@ const applications = {
         },
       ]
     },
+    // {
+    //   id: 'channel-table',
+    //   title: <FormattedMessage id="channel-table" />,
+    //   type: 'collapse',
+    //   icon: icons.MessageOutlined,
+    //   children: [
+    //     {
+    //       id: 'channels',
+    //       title: <FormattedMessage id="channels" />,
+    //       type: 'item',
+    //       link: '/channel',
+    //       url: '/channel/all',
+    //       breadcrumbs: false
+    //     },
+    //   ]
+    // },
     {
-      id: 'channel',
-      title: <FormattedMessage id="channel" />,
+      id: 'customer',
+      title: <FormattedMessage id="Channels" />,
+      type: 'collapse',
+      icon: icons.CustomerServiceOutlined,
+      children: [
+        {
+          id: 'customer-card',
+          title: <FormattedMessage id="Channel List" />,
+          type: 'item',
+          url: '/channel/list'
+        }
+      ]
+    },
+    {
+      id: 'signal',
+      title: <FormattedMessage id="Signals" />,
       type: 'collapse',
       icon: icons.MessageOutlined,
       children: [
         {
-          id: 'channels',
-          title: <FormattedMessage id="channels" />,
+          id: 'customer-card',
+          title: <FormattedMessage id="Signal" />,
           type: 'item',
-          link: '/channel',
-          url: '/channel/all',
-          breadcrumbs: false
-        },
+          url: '/signal/list'
+        }
       ]
     },
   ]

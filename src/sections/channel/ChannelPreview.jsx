@@ -37,13 +37,12 @@ import { getImageUrl, ImagePath } from 'utils/getImageUrl';
 
 // assets
 import DeleteOutlined from '@ant-design/icons/DeleteOutlined';
-import DownloadOutlined from '@ant-design/icons/DownloadOutlined';
 import EditOutlined from '@ant-design/icons/EditOutlined';
 import MoreOutlined from '@ant-design/icons/MoreOutlined';
 
-// ==============================|| CUSTOMER - CARD PREVIEW ||============================== //
+// ==============================|| Channel - CARD PREVIEW ||============================== //
 
-export default function CustomerPreview({ customer: channel, open, onClose, editCustomer }) {
+export default function ChannelPreview({ channel, open, onClose, editChannel }) {
   const matchDownMD = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const [openAlert, setOpenAlert] = useState(false);
 
@@ -103,7 +102,7 @@ export default function CustomerPreview({ customer: channel, open, onClose, edit
                     >
                       
                       <Tooltip title="Edit">
-                        <IconButton color="secondary" onClick={editCustomer}>
+                        <IconButton color="secondary" onClick={editChannel}>
                           <EditOutlined />
                         </IconButton>
                       </Tooltip>
@@ -149,7 +148,7 @@ export default function CustomerPreview({ customer: channel, open, onClose, edit
             }}
           >
             
-            <MenuItem onClick={editCustomer}>Edit</MenuItem>
+            <MenuItem onClick={editChannel}>Edit</MenuItem>
             <MenuItem onClick={handleAlertClose}>Delete</MenuItem>
           </Menu>
           <DialogContent dividers sx={{ px: 0 }}>
@@ -329,4 +328,4 @@ export default function CustomerPreview({ customer: channel, open, onClose, edit
   );
 }
 
-CustomerPreview.propTypes = { customer: PropTypes.any, open: PropTypes.bool, onClose: PropTypes.func, editCustomer: PropTypes.func };
+ChannelPreview.propTypes = { channel: PropTypes.any, open: PropTypes.bool, onClose: PropTypes.func, editChannel: PropTypes.func };

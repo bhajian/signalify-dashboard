@@ -16,16 +16,16 @@ const ReactTableEditable = Loadable(lazy(() => import('pages/channel/table')));
 
 const ChannelCard = Loadable(lazy(() => import('pages/channel/list')));
 
-const UserProfile = Loadable(lazy(() => import('pages/profiles/user')));
-const UserTabPersonal = Loadable(lazy(() => import('sections/profiles/user/TabPersonal')));
-const UserTabPayment = Loadable(lazy(() => import('sections/profiles/user/TabPayment')));
-const UserTabPassword = Loadable(lazy(() => import('sections/profiles/user/TabPassword')));
-const UserTabSettings = Loadable(lazy(() => import('sections/profiles/user/TabSettings')));
+const UserProfile = Loadable(lazy(() => import('pages/profile/user')));
+const UserTabPersonal = Loadable(lazy(() => import('sections/profile/user/TabPersonal')));
+const UserTabPayment = Loadable(lazy(() => import('sections/profile/user/TabPayment')));
+const UserTabPassword = Loadable(lazy(() => import('sections/profile/user/TabPassword')));
+const UserTabSettings = Loadable(lazy(() => import('sections/profile/user/TabSettings')));
 
 const AppContactUS = Loadable(lazy(() => import('pages/contact-us')));
 // render - landing page
 const HomePage = Loadable(lazy(() => import('pages/home/home-page')));
-const ProfilePage = Loadable(lazy(() => import('pages/profiles/user')));
+
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {

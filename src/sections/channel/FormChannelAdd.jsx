@@ -45,7 +45,7 @@ import CircularWithPath from 'components/@extended/progress/CircularWithPath';
 
 import { ThemeMode, Gender } from 'config';
 import { openSnackbar } from 'api/snackbar';
-import { insertCustomer, updateCustomer } from 'api/channel';
+import { insertChannel, updateChannel } from 'api/channel';
 import { getImageUrl, ImagePath } from 'utils/getImageUrl';
 
 // assets
@@ -53,71 +53,16 @@ import CameraOutlined from '@ant-design/icons/CameraOutlined';
 import CloseOutlined from '@ant-design/icons/CloseOutlined';
 import DeleteFilled from '@ant-design/icons/DeleteFilled';
 
-const skills = [
-  'Adobe XD',
-  'After Effect',
-  'Angular',
-  'Animation',
-  'ASP.Net',
-  'Bootstrap',
-  'C#',
-  'CC',
-  'Corel Draw',
-  'CSS',
-  'DIV',
-  'Dreamweaver',
-  'Figma',
-  'Graphics',
-  'HTML',
-  'Illustrator',
-  'J2Ee',
-  'Java',
-  'Javascript',
-  'JQuery',
-  'Logo Design',
-  'Material UI',
-  'Motion',
-  'MVC',
-  'MySQL',
-  'NodeJS',
-  'npm',
-  'Photoshop',
-  'PHP',
-  'React',
-  'Redux',
-  'Reduxjs & tooltit',
-  'SASS',
-  'SCSS',
-  'SQL Server',
-  'SVG',
-  'UI/UX',
-  'User Interface Designing',
-  'Wordpress'
-];
-
 // constant
 const getInitialValues = (customer) => {
   const newCustomer = {
-    firstName: '',
-    lastName: '',
     name: '',
-    email: '',
-    age: 18,
-    avatar: 1,
-    gender: Gender.FEMALE,
-    role: '',
-    fatherName: '',
-    orders: 0,
-    progress: 50,
-    status: 2,
-    orderStatus: '',
-    contact: '',
-    country: '',
-    location: '',
-    about: '',
-    skills: [],
-    time: ['just now'],
-    date: ''
+    price: 10,
+    status: Gender.FEMALE,
+    assetType: '11',
+    tradeType: '22',
+    platformType: '33',
+    ownerSub: '44',
   };
 
   if (customer) {
@@ -135,13 +80,13 @@ const allStatus = [
 
 // ==============================|| CUSTOMER ADD / EDIT - FORM ||============================== //
 
-export default function FormCustomerAdd({ customer, closeModal }) {
+export default function FormCustomerAdd({ customer: channel, closeModal }) {
   const theme = useTheme();
 
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(undefined);
   const [avatar, setAvatar] = useState(
-    getImageUrl(`avatar-${customer && customer !== null && customer?.avatar ? customer.avatar : 1}.png`, ImagePath.USERS)
+    getImageUrl(`avatar-${channel && channel !== null && channel?.avatar ? channel.avatar : 1}.png`, ImagePath.USERS)
   );
 
   useEffect(() => {
@@ -155,8 +100,7 @@ export default function FormCustomerAdd({ customer, closeModal }) {
   }, []);
 
   const CustomerSchema = Yup.object().shape({
-    firstName: Yup.string().max(255).required('Channel Name is required'),
-    email: Yup.string().max(255).required('Email is required').email('Must be a valid email'),
+    name: Yup.string().max(255).required('Channel Name is required'),
     status: Yup.string().required('Status is required'),
     location: Yup.string().max(500),
     about: Yup.string().max(500)
@@ -170,16 +114,17 @@ export default function FormCustomerAdd({ customer, closeModal }) {
   };
 
   const formik = useFormik({
-    initialValues: getInitialValues(customer),
+    initialValues: getInitialValues(channel),
     validationSchema: CustomerSchema,
     enableReinitialize: true,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        let newCustomer = values;
-        newCustomer.name = newCustomer.firstName + ' ' + newCustomer.lastName;
-
-        if (customer) {
-          updateCustomer(newCustomer.id, newCustomer).then(() => {
+        let newChannel = values;
+        newChannel.name = newChannel.name;
+        
+        if (channel) {
+          updateChannel(newChannel.id, newChannel).then(() => {
+            
             openSnackbar({
               open: true,
               message: 'Channel update successfully.',
@@ -193,7 +138,8 @@ export default function FormCustomerAdd({ customer, closeModal }) {
             closeModal();
           });
         } else {
-          await insertCustomer(newCustomer).then(() => {
+          console.log(JSON.stringify(newChannel))
+          await insertChannel(newChannel).then(() => {
             openSnackbar({
               open: true,
               message: 'Channel added successfully.',
@@ -229,7 +175,7 @@ export default function FormCustomerAdd({ customer, closeModal }) {
       <FormikProvider value={formik}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            <DialogTitle>{customer ? 'Edit Channel' : 'New Channel'}</DialogTitle>
+            <DialogTitle>{channel ? 'Edit Channel' : 'New Channel'}</DialogTitle>
             <Divider />
             <DialogContent sx={{ p: 2.5 }}>
               <Grid container spacing={3}>
@@ -280,44 +226,18 @@ export default function FormCustomerAdd({ customer, closeModal }) {
                   <Grid container spacing={3}>
                     <Grid item xs={9}>
                       <Stack spacing={1}>
-                        <InputLabel htmlFor="customer-firstName">Channel Name</InputLabel>
+                        <InputLabel htmlFor="channel-name">Channel Name</InputLabel>
                         <TextField
                           fullWidth
-                          id="customer-firstName"
+                          id="channel-name"
                           placeholder="Enter Channel Name"
-                          {...getFieldProps('firstName')}
-                          error={Boolean(touched.firstName && errors.firstName)}
-                          helperText={touched.firstName && errors.firstName}
-                        />
-                      </Stack>
-                    </Grid>
-                    <Grid item xs={9}>
-                      <Stack spacing={1}>
-                        <InputLabel htmlFor="customer-email">Email</InputLabel>
-                        <TextField
-                          fullWidth
-                          id="customer-email"
-                          placeholder="Enter Customer Email"
-                          {...getFieldProps('email')}
-                          error={Boolean(touched.email && errors.email)}
-                          helperText={touched.email && errors.email}
+                          {...getFieldProps('name')}
+                          error={Boolean(touched.name && errors.name)}
+                          helperText={touched.name && errors.name}
                         />
                       </Stack>
                     </Grid>
                     
-                    <Grid item xs={12} sm={6}>
-                      <Stack spacing={1}>
-                        <InputLabel htmlFor="customer-fatherName">Father Name</InputLabel>
-                        <TextField
-                          fullWidth
-                          id="customer-fatherName"
-                          placeholder="Enter Father Name"
-                          {...getFieldProps('fatherName')}
-                          error={Boolean(touched.fatherName && errors.fatherName)}
-                          helperText={touched.fatherName && errors.fatherName}
-                        />
-                      </Stack>
-                    </Grid>
                     <Grid item xs={12} sm={6}>
                       <Stack spacing={1}>
                         <InputLabel htmlFor="customer-role">Customer Role</InputLabel>
@@ -334,7 +254,7 @@ export default function FormCustomerAdd({ customer, closeModal }) {
                     <Grid item xs={12} sm={6}>
                       <Stack spacing={1}>
                         <InputLabel htmlFor="customer-gender">Gender</InputLabel>
-                        <RadioGroup row aria-label="payment-card" {...getFieldProps('gender')}>
+                        <RadioGroup row aria-label="payment-card" {...getFieldProps('status')}>
                           <FormControlLabel control={<Radio value={Gender.FEMALE} />} label={Gender.FEMALE} />
                           <FormControlLabel control={<Radio value={Gender.MALE} />} label={Gender.MALE} />
                         </RadioGroup>
@@ -377,61 +297,6 @@ export default function FormCustomerAdd({ customer, closeModal }) {
                         )}
                       </Stack>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Stack spacing={1}>
-                        <InputLabel htmlFor="customer-contact">Contact</InputLabel>
-                        <TextField
-                          fullWidth
-                          id="customer-contact"
-                          placeholder="Enter Contact"
-                          {...getFieldProps('contact')}
-                          error={Boolean(touched.contact && errors.contact)}
-                          helperText={touched.contact && errors.contact}
-                        />
-                      </Stack>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Stack spacing={1}>
-                        <InputLabel htmlFor="customer-country">Country</InputLabel>
-                        <TextField
-                          fullWidth
-                          id="customer-country"
-                          placeholder="Enter Country"
-                          {...getFieldProps('country')}
-                          error={Boolean(touched.country && errors.country)}
-                          helperText={touched.country && errors.country}
-                        />
-                      </Stack>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Stack spacing={1}>
-                        <InputLabel htmlFor="customer-skills">Skills</InputLabel>
-                        <Autocomplete
-                          multiple
-                          fullWidth
-                          id="customer-skills"
-                          options={skills}
-                          {...getFieldProps('skills')}
-                          getOptionLabel={(label) => label}
-                          onChange={(event, newValue) => {
-                            setFieldValue('skills', newValue);
-                          }}
-                          renderInput={(params) => <TextField {...params} name="skill" placeholder="Add Skills" />}
-                          renderTags={(value, getTagProps) =>
-                            value.map((option, index) => (
-                              <Chip
-                                {...getTagProps({ index })}
-                                variant="combined"
-                                key={index}
-                                label={option}
-                                deleteIcon={<CloseOutlined style={{ fontSize: '0.75rem' }} />}
-                                sx={{ color: 'text.primary' }}
-                              />
-                            ))
-                          }
-                        />
-                      </Stack>
-                    </Grid>
                     <Grid item xs={12}>
                       <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
                         <Stack spacing={0.5}>
@@ -461,7 +326,7 @@ export default function FormCustomerAdd({ customer, closeModal }) {
             <DialogActions sx={{ p: 2.5 }}>
               <Grid container justifyContent="space-between" alignItems="center">
                 <Grid item>
-                  {customer && (
+                  {channel && (
                     <Tooltip title="Delete Customer" placement="top">
                       <IconButton onClick={() => setOpenAlert(true)} size="large" color="error">
                         <DeleteFilled />
@@ -475,7 +340,7 @@ export default function FormCustomerAdd({ customer, closeModal }) {
                       Cancel
                     </Button>
                     <Button type="submit" variant="contained" disabled={isSubmitting}>
-                      {customer ? 'Edit' : 'Add'}
+                      {channel ? 'Edit' : 'Add'}
                     </Button>
                   </Stack>
                 </Grid>
@@ -484,7 +349,7 @@ export default function FormCustomerAdd({ customer, closeModal }) {
           </Form>
         </LocalizationProvider>
       </FormikProvider>
-      {customer && <AlertCustomerDelete id={customer.id} title={customer.name} open={openAlert} handleClose={handleAlertClose} />}
+      {channel && <AlertCustomerDelete id={channel.id} title={channel.name} open={openAlert} handleClose={handleAlertClose} />}
     </>
   );
 }

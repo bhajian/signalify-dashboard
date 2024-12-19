@@ -24,7 +24,7 @@ import { useGetChannels } from 'api/channel';
 // assets
 import PlusOutlined from '@ant-design/icons/PlusOutlined';
 
-// ==============================|| CUSTOMER - CARD ||============================== //
+// ==============================|| Channel - CARD ||============================== //
 
 const allColumns = [
   {
@@ -74,7 +74,7 @@ function dataSort(data, sortBy) {
   });
 }
 
-export default function CustomerCardPage() {
+export default function ChannelCardPage() {
   const matchDownSM = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
   const { channels: lists } = useGetChannels();
@@ -167,7 +167,7 @@ export default function CustomerCardPage() {
           _DATA.currentData().map((channel, index) => (
             <Slide key={index} direction="up" in={true} timeout={50}>
               <Grid item xs={12} sm={6} lg={4}>
-                <ChannelCard customer={channel} />
+                <ChannelCard channel={channel} />
               </Grid>
             </Slide>
           ))

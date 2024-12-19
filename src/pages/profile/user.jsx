@@ -5,8 +5,7 @@ import { Outlet } from 'react-router';
 import Grid from '@mui/material/Grid';
 
 // project import
-import ProfileCard from 'sections/profiles/user/ProfileCard';
-import ProfileTabs from 'sections/profiles/user/ProfileTabs';
+import ProfileTabs from 'sections/profile/user/ProfileTabs';
 
 // ==============================|| PROFILE - USER ||============================== //
 
@@ -19,9 +18,6 @@ export default function UserProfile() {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12}>
-        <ProfileCard focusInput={focusInput} />
-      </Grid>
       <Grid item xs={12} md={3}>
         <ProfileTabs focusInput={focusInput} />
       </Grid>

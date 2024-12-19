@@ -110,7 +110,7 @@ export default function ProfileTabs({ focusInput }) {
             >
               <MenuItem
                 component={Link}
-                to="/profiles/user/personal"
+                to="/profile/user/personal"
                 onClick={() => {
                   handleClose();
                   setTimeout(() => {

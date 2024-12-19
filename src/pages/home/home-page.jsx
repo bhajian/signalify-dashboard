@@ -1,12 +1,7 @@
 import { useEffect, useState } from 'react';
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-
 import { loadStripe } from '@stripe/stripe-js';
+import SubscribeChannelCard from 'sections/channel/SubscribeChannelCard';
 
 import axios from 'axios'; // Ensure axios is imported
 const stripePromise = loadStripe("pk_live_51QULjG07n7BY3VpocvtX5kNskuA0idIfDnO6GlMo6rcETMFcN86UC1G2uFhUXhFgnMAVgEtKAmjrPMU9o1zNkeLh00SgVJIPjw");
@@ -68,37 +63,10 @@ export default function LandingPage() {
   return (
     <MainCard title="Landing Card">
       <Grid container spacing={3}>
-      {channels.map((channel) => (
+      {channels.map((channel, index) => (
+        
         <Grid item xs={12} sm={6} md={4} key={channel._id}>
-          <Card>
-            <CardContent>
-            
-            <Typography variant="h6">{channel.name}</Typography>
-
-              <Grid item xs={12}>
-                <Divider />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography>Asset Type: {channel?.assetType}</Typography>
-              </Grid>
-              
-              <Grid item xs={12}>
-                <Typography>Trade Type: {channel?.tradeType}</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography>Price: {channel?.price}</Typography>
-              </Grid>
-              
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleSubscribe(channel._id, channel.priceId)}
-                disabled={loading}
-              >
-                {loading ? 'Processing...' : 'Subscribe'}
-              </Button>
-            </CardContent>
-          </Card>
+          <SubscribeChannelCard channel={channel} />
         </Grid>
       ))}
     </Grid>

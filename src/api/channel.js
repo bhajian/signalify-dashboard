@@ -1,24 +1,26 @@
 import useSWR, { mutate } from 'swr';
 import { useMemo } from 'react';
+import axios from 'axios';
 
-// utils
-import { fetcher } from 'utils/axios';
+// Create an Axios instance
+const axiosInstance = axios.create();
 
-const initialState = {
-  modal: false
-};
+// Attach a request interceptor to handle authorization headers
+axiosInstance.interceptors.request.use(async (config) => {
+  const accessToken = localStorage.getItem('serviceToken');
+  if (accessToken) {
+    config.headers['Authorization'] = `Bearer ${accessToken}`;
+  }
+  return config;
+});
 
-export const endpoints = {
-  key: 'api/channel',
-  list: '/all', // server URL
-  modal: '/modal', // server URL
-  insert: '/insert', // server URL
-  update: '/update', // server URL
-  delete: '/delete' // server URL
-};
+// The fetcher function for SWR, which uses our Axios instance
+const fetcher = (url) => axiosInstance.get(url).then((res) => res.data);
+
+const API_BASE = `${import.meta.env.VITE_APP_API_URL}api/channel`;
 
 export function useGetChannels() {
-  const { data, isLoading, error, isValidating } = useSWR(endpoints.key + endpoints.list, fetcher, {
+  const { data, isLoading, error, isValidating } = useSWR(`${API_BASE}/all`, fetcher, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
     revalidateOnReconnect: false
@@ -30,7 +32,7 @@ export function useGetChannels() {
       channelsLoading: isLoading,
       channelsError: error,
       channelsValidating: isValidating,
-      channelsEmpty: !isLoading && !data?.channels?.length
+      channelsEmpty: !isLoading && (!data?.channels || data.channels.length === 0)
     }),
     [data, error, isLoading, isValidating]
   );
@@ -38,98 +40,60 @@ export function useGetChannels() {
   return memoizedValue;
 }
 
-export async function insertCustomer(newCustomer) {
-  // to update local state based on key
+export async function insertChannel(newChannel) {
+  // Optimistically update local cache for `${API_BASE}/all`
   mutate(
-    endpoints.key + endpoints.list,
-    (currentCustomer) => {
-      newCustomer.id = currentCustomer.customers.length + 1;
-      const addedCustomer = [...currentCustomer.customers, newCustomer];
-
-      return {
-        ...currentCustomer,
-        customers: addedCustomer
-      };
+    `${API_BASE}/all`,
+    (current) => {
+      const updatedChannels = current?.channels
+        ? [...current.channels, { ...newChannel, id: current.channels.length + 1 }]
+        : [{ ...newChannel, id: 1 }];
+      return { ...current, channels: updatedChannels };
     },
     false
   );
 
-  // to hit server
-  // you may need to refetch latest data after server hit and based on your logic
-  //   const data = { newCustomer };
-  //   await axios.post(endpoints.key + endpoints.insert, data);
+  // Update server (POST /api/channel)
+  await axiosInstance.post(API_BASE, newChannel);
+
+  // Revalidate data from the server
+  mutate(`${API_BASE}/all`);
 }
 
-export async function updateCustomer(customerId, updatedCustomer) {
-  // to update local state based on key
+export async function updateChannel(channelId, updatedChannel) {
+  // Optimistically update local cache
   mutate(
-    endpoints.key + endpoints.list,
-    (currentCustomer) => {
-      const newCustomer = currentCustomer.customers.map((customer) =>
-        customer.id === customerId ? { ...customer, ...updatedCustomer } : customer
+    `${API_BASE}/all`,
+    (current) => {
+      const updatedChannels = current.channels.map((channel) =>
+        channel.id === channelId ? { ...channel, ...updatedChannel } : channel
       );
-
-      return {
-        ...currentCustomer,
-        customers: newCustomer
-      };
+      return { ...current, channels: updatedChannels };
     },
     false
   );
 
-  // to hit server
-  // you may need to refetch latest data after server hit and based on your logic
-  //   const data = { list: updatedCustomer };
-  //   await axios.post(endpoints.key + endpoints.update, data);
+  // Update server (PUT /api/channel/:id)
+  await axiosInstance.put(`${API_BASE}/${channelId}`, updatedChannel);
+
+  // Revalidate data
+  mutate(`${API_BASE}/all`);
 }
 
-export async function deleteCustomer(customerId) {
-  // to update local state based on key
+export async function deleteChannel(channelId) {
+  // Optimistically update local cache
   mutate(
-    endpoints.key + endpoints.list,
-    (currentCustomer) => {
-      const nonDeletedCustomer = currentCustomer.customers.filter((customer) => customer.id !== customerId);
-
-      return {
-        ...currentCustomer,
-        customers: nonDeletedCustomer
-      };
+    `${API_BASE}/all`,
+    (current) => {
+      const remainingChannels = current.channels.filter((channel) => channel.id !== channelId);
+      return { ...current, channels: remainingChannels };
     },
     false
   );
 
-  // to hit server
-  // you may need to refetch latest data after server hit and based on your logic
-  //   const data = { customerId };
-  //   await axios.post(endpoints.key + endpoints.delete, data);
-}
+  // Update server (DELETE /api/channel/:id)
+  await axiosInstance.delete(`${API_BASE}/${channelId}`);
 
-export function useGetCustomerMaster() {
-  const { data, isLoading } = useSWR(endpoints.key + endpoints.modal, () => initialState, {
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false
-  });
-
-  const memoizedValue = useMemo(
-    () => ({
-      customerMaster: data,
-      customerMasterLoading: isLoading
-    }),
-    [data, isLoading]
-  );
-
-  return memoizedValue;
-}
-
-export function handlerCustomerDialog(modal) {
-  // to update local state based on key
-
-  mutate(
-    endpoints.key + endpoints.modal,
-    (currentCustomermaster) => {
-      return { ...currentCustomermaster, modal };
-    },
-    false
-  );
+  // Revalidate data
+  mutate(`${API_BASE}/all`);
 }

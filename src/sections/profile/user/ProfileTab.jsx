@@ -16,16 +16,16 @@ import UserOutlined from '@ant-design/icons/UserOutlined';
 function getPathIndex(pathname) {
   let selectedTab = 0;
   switch (pathname) {
-    case '/profiles/user/payment':
+    case '/profile/user/payment':
       selectedTab = 1;
       break;
-    case '/profiles/user/password':
+    case '/profile/user/password':
       selectedTab = 2;
       break;
-    case '/profiles/user/settings':
+    case '/profile/user/settings':
       selectedTab = 3;
       break;
-    case '/profiles/user/personal':
+    case '/profile/user/personal':
     default:
       selectedTab = 0;
   }
@@ -50,25 +50,25 @@ export default function ProfileTab() {
 
   return (
     <List component="nav" sx={{ p: 0, '& .MuiListItemIcon-root': { minWidth: 32, color: 'grey.500' } }}>
-      <ListItemButton selected={selectedIndex === 0} onClick={() => handleListItemClick(0, '/profiles/user/personal')}>
+      <ListItemButton selected={selectedIndex === 0} onClick={() => handleListItemClick(0, '/profile/user/personal')}>
         <ListItemIcon>
           <UserOutlined />
         </ListItemIcon>
         <ListItemText primary="Personal Information" />
       </ListItemButton>
-      <ListItemButton selected={selectedIndex === 1} onClick={() => handleListItemClick(1, '/profiles/user/payment')}>
+      <ListItemButton selected={selectedIndex === 1} onClick={() => handleListItemClick(1, '/profile/user/payment')}>
         <ListItemIcon>
           <CreditCardOutlined />
         </ListItemIcon>
         <ListItemText primary="Payment" />
       </ListItemButton>
-      <ListItemButton selected={selectedIndex === 2} onClick={() => handleListItemClick(2, '/profiles/user/password')}>
+      <ListItemButton selected={selectedIndex === 2} onClick={() => handleListItemClick(2, '/profile/user/password')}>
         <ListItemIcon>
           <LockOutlined />
         </ListItemIcon>
         <ListItemText primary="Change Password" />
       </ListItemButton>
-      <ListItemButton selected={selectedIndex === 3} onClick={() => handleListItemClick(3, '/profiles/user/settings')}>
+      <ListItemButton selected={selectedIndex === 3} onClick={() => handleListItemClick(3, '/profile/user/settings')}>
         <ListItemIcon>
           <SettingOutlined />
         </ListItemIcon>

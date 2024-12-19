@@ -8,11 +8,9 @@ import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import Fade from '@mui/material/Fade';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -34,7 +32,7 @@ import IconButton from 'components/@extended/IconButton';
 import MoreOutlined from '@ant-design/icons/MoreOutlined';
 
 
-export default function ChannelCard({ channel }) {
+export default function SubscribeChannelCard({ channel }) {
   const [open, setOpen] = useState(false);
   const [channelModal, setChannelModal] = useState(false);
   const [selectedChannel, setSelectedChannel] = useState(null);
@@ -77,14 +75,7 @@ export default function ChannelCard({ channel }) {
         <Grid id="print" container spacing={2.25}>
           <Grid item xs={12}>
             <List sx={{ width: 1, p: 0 }}>
-              <ListItem
-                disablePadding
-                secondaryAction={
-                  <IconButton edge="end" aria-label="comments" color="secondary" onClick={handleMenuClick}>
-                    <MoreOutlined style={{ fontSize: '1.15rem' }} />
-                  </IconButton>
-                }
-              >
+              <ListItem disablePadding>
                 <ListItemAvatar>
                   <Avatar alt={channel.name} src={getImageUrl(`avatar-${!channel.avatar ? 1 : channel.avatar}.png`, ImagePath.USERS)} />
                 </ListItemAvatar>
@@ -98,27 +89,7 @@ export default function ChannelCard({ channel }) {
                 />
               </ListItem>
             </List>
-            <Menu
-              id="fade-menu"
-              MenuListProps={{
-                'aria-labelledby': 'fade-button'
-              }}
-              anchorEl={anchorEl}
-              open={openMenu}
-              onClose={handleMenuClose}
-              TransitionComponent={Fade}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right'
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-            >
-              <MenuItem onClick={editChannel}>Edit</MenuItem>
-              <MenuItem onClick={handleAlertClose}>Delete</MenuItem>
-            </Menu>
+            
           </Grid>
           <Grid item xs={12}>
             <Divider />
@@ -166,7 +137,7 @@ export default function ChannelCard({ channel }) {
             Updated in {channel.time}
           </Typography>
           <Button variant="outlined" size="small" onClick={handleClickOpen}>
-            Preview
+            Subscribe
           </Button>
         </Stack>
       </MainCard>
@@ -178,4 +149,4 @@ export default function ChannelCard({ channel }) {
   );
 }
 
-ChannelCard.propTypes = { channel: PropTypes.any };
+SubscribeChannelCard.propTypes = { channel: PropTypes.any };

@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import Avatar from 'components/@extended/Avatar';
 import { PopupTransition } from 'components/@extended/Transitions';
 
-import { deleteCustomer } from 'api/channel';
+import { deleteChannel } from 'api/channel';
 import { openSnackbar } from 'api/snackbar';
 
 // assets
@@ -20,7 +20,7 @@ import DeleteFilled from '@ant-design/icons/DeleteFilled';
 
 export default function AlertCustomerDelete({ id, title, open, handleClose }) {
   const deletehandler = async () => {
-    await deleteCustomer(id).then(() => {
+    await deleteChannel(id).then(() => {
       openSnackbar({
         open: true,
         message: 'Customer deleted successfully',

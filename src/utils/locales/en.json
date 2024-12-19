@@ -137,5 +137,9 @@
   "utils": "Utils",
   "widgets": "Widgets",
   "more-items": "More Items",
-  "home": "Home"
+  "home": "Home",
+  "Channel List": "Channel List",
+  "Contact Us": "Contact Us",
+  "Signals": "Signals",
+  "Channels": "Channels"
 }
